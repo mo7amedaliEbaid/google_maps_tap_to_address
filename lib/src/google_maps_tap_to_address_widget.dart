@@ -4,24 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Google Maps Tap to Address Example',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const GoogleMapsTapToAddress(),
-    );
-  }
-}
+import '../google_maps_tap_to_address.dart';
 
 class GoogleMapsTapToAddress extends StatefulWidget {
   const GoogleMapsTapToAddress({super.key});
@@ -142,16 +125,16 @@ class _GoogleMapsTapToAddressState extends State<GoogleMapsTapToAddress>
           _loading
               ? const Center(child: CircularProgressIndicator())
               : GoogleMap(
-                  onMapCreated: _onMapCreated,
-                  initialCameraPosition: CameraPosition(
-                    target: _initialPosition,
-                    zoom: 14.0,
-                  ),
-                  onTap: (LatLng tappedPoint) {
-                    _onMapDoubleTap(tappedPoint);
-                  },
-                  mapType: MapType.normal,
-                ),
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: CameraPosition(
+              target: _initialPosition,
+              zoom: 14.0,
+            ),
+            onTap: (LatLng tappedPoint) {
+              _onMapDoubleTap(tappedPoint);
+            },
+            mapType: MapType.normal,
+          ),
           if (_tappedAddress != null)
             FadeTransition(
               opacity: _fadeAnimation,
@@ -209,32 +192,5 @@ class _GoogleMapsTapToAddressState extends State<GoogleMapsTapToAddress>
   void dispose() {
     _animationController.dispose();
     super.dispose();
-  }
-}
-
-class LastAddressScreen extends StatelessWidget {
-  final String? address;
-
-  const LastAddressScreen({Key? key, this.address}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Last Saved Address'),
-      ),
-      body: Center(
-        child: address != null
-            ? Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  address!,
-                  style: const TextStyle(fontSize: 18),
-                ),
-              )
-            : const Text('No address saved yet.',
-                style: TextStyle(fontSize: 18)),
-      ),
-    );
   }
 }
